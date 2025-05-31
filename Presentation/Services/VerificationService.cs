@@ -30,10 +30,6 @@ public class VerificationService(IConfiguration configuration, EmailClient email
             if (request == null || string.IsNullOrWhiteSpace(request.Email))
                 return new VerficationServiceResult { Succeeded = false, Error = "Recipient email address is required." };
 
-            //var user = await _userManager.FindByEmailAsync(request.Email);
-            //if (user == null)
-            //    return new VerficationServiceResult { Succeeded = false, Error = "User not found." };
-
             var verficationCode = _random.Next(100000, 999999).ToString();
             // Send email
             var subject = $"Your verification code is: {verficationCode}";
@@ -95,33 +91,6 @@ public class VerificationService(IConfiguration configuration, EmailClient email
         }
 
         return new VerficationServiceResult { Succeeded = false, Error = "Invalid or expired verification code." };
-       
-        //if (storedCode == request.Code)
-        //{
-        //    var user = await _userManager.FindByEmailAsync(request.Email);
-        //    if (user == null)
-        //        return new VerficationServiceResult { Succeeded = false, Error = "User not found." };
-
-        //    if (user.EmailConfirmed)
-        //        return new VerficationServiceResult { Succeeded = true, Message = "Email already confirmed." };
-
-        //    // Identity behöver en riktig token – generera en ny
-        //    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        //    var confirmResult = await _userManager.ConfirmEmailAsync(user, token);
-
-        //    if (confirmResult.Succeeded)
-        //    {
-        //        _cache.Remove(key);
-        //        return new VerficationServiceResult { Succeeded = true, Message = "Email confirmed successfully." };
-        //    }
-
-        //    return new VerficationServiceResult
-        //    {
-        //        Succeeded = false,
-        //        Error = string.Join("; ", confirmResult.Errors.Select(e => e.Description))
-        //    };
-        //}
-
     }
 }
 
